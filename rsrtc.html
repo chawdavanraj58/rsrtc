@@ -1,0 +1,143 @@
+<html>
+<head>
+
+<script>
+function check()
+{
+	alert("what!!!!!!!");
+}
+function goform()
+{
+	document.getElementById("table2").innerHTML = "";
+	console.log("in func");
+ 	var tic = parseInt(document.getElementById("num3").value);
+		console.log(tic);
+	var arr = [ "Name :","  Age :","  Gender :","  phone: "];
+	for(var i = 0; i < tic;i++)
+	{
+		
+		var tabcr = document.getElementById("table2");
+		var tabrow = document.createElement("tr");
+		for(var j = 0; j < arr.length ;j++)
+		{
+			console.log("in loop1");
+			var tabdata = document.createElement("td");
+			var inp = document.createElement("input");
+			var txt= document.createTextNode(arr[j]);
+			if(j == 0)
+			{
+				inp.setAttribute("type","text");
+				inp.setAttribute("name","arr"+i);
+			}
+			
+			if(j == 1)
+			{
+				inp.setAttribute("type","number");
+				inp.setAttribute("name","arrage"+i);
+			}
+			
+			if(j == 2)
+			{
+				inp.setAttribute("type","text");
+				inp.setAttribute("name","arrgen"+i);
+			}
+			if(j == 3)
+			{
+				inp.setAttribute("type","number");
+				inp.setAttribute("name","arrmob"+i);
+			}
+			tabdata.appendChild(txt);
+			tabdata.appendChild(inp);
+			tabrow.appendChild(tabdata);
+		}
+		tabcr.appendChild(tabrow);
+	}
+	putprice();
+	
+}
+
+function dropdown()
+{
+
+	console.log("in dropdown")
+	var xhr = new XMLHttpRequest();
+	var city1 = document.getElementById("from1").value;
+	var url = "dropdown1.php?from2=" + city1;
+	xhr.open("GET",url,true);
+	xhr.onreadystatechange = function()
+	{
+		console.log(xhr.readyState)
+		if (xhr.readyState == 4)
+		{
+			if(xhr.status == 200)
+			{
+			console.log("in condition");
+			document.getElementById("to").innerHTML = this.responseText;
+			}
+			else
+			{
+				alert("something went wrong");
+			}
+		}
+	}
+	console.log("out loop");
+	
+	xhr.send();
+	
+		
+}
+
+function putprice()
+{
+		var xhr = new XMLHttpRequest()
+		var tic = parseInt(document.getElementById("num3").value);
+		var fromcity =  document.getElementById("from1").value;
+		var destcity = document.getElementById("to").value;
+		var url = "ticket.php?num="+tic+"&from2="+fromcity+"&to1="+destcity;
+		
+		xhr.open("GET", url,true)
+		xhr.onreadystatechange = function()
+		{
+			if(xhr.readyState == 4)
+			{
+				if(xhr.status == 200)
+				{
+					document.getElementById("price").innerHTML = this.responseText;
+				}
+			}
+		}
+		xhr.send();
+}
+
+</script>
+</head>
+<body align = "center" >
+<h1> Poor People's Ticket Booking System</h1>
+<form align = "center" action = "userdata.php" method = "GET" >
+<table align = "center" >
+<tr><td>From:</td><td><select name = "from2" id = "from1" onchange="dropdown()">
+<option value="selCity" align = "center">SELECT CITY</option>
+<option value="Pune">Pune</option>
+<option value="Mumbai">Mumbai</option></select></td></tr>
+
+
+
+<tr><td>To:</td><td id= "tabdata1"><select name = "to1" id = "to"></select></td></tr>
+
+
+<tr><td>Name:</td><td><input type="text" name="name" id="name"></td></tr>
+<tr><td>phone:</td><td><input type="number" name="phone" id="phone"></td></tr>
+<tr><td>Email ID: </td><td><input type="email" name="email" id="email" REQUIRED></td></tr>
+<tr><td>Tickets : </td><td><input type="number" name="num" id="num3" onblur= "goform()" ></td>
+<td>Price :</td>  <td id="price"></td><</tr>
+<div >
+<table  align = "center" id = "table2">
+
+</table>
+<input type = "button" id = "btn1" value = "register" onclick = "check()" align = "center">
+<input type = "submit" id = "btn2" align = "center">
+</div>
+
+</form>
+</body>
+</html>
